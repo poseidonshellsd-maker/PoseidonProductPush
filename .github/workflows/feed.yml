@@ -23,10 +23,8 @@ jobs:
       - name: Run Ecwid feed script
         run: python ecwid_to_google_feed.py
 
-      - name: Commit updated feed
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add google_feed.csv || true
-          git commit -m "Update feed" || true
-          git push
+      - name: Upload feed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: google_feed
+          path: google_feed.csv
