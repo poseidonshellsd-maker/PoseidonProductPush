@@ -1,9 +1,10 @@
+import os
 import requests
 import csv
 
-# 🔧 EDIT THESE TWO LINES
-STORE_ID = "ECWID_STORE_ID"          # e.g., "42429290"
-SECRET_TOKEN = "ECWID_SECRET_TOKEN"  # e.g., "secret_XXXXXXXX"
+# ✅ Read secrets from environment variables injected by GitHub Actions
+STORE_ID = os.getenv("ECWID_STORE_ID")
+SECRET_TOKEN = os.getenv("ECWID_SECRET_TOKEN")
 
 API_URL = f"https://app.ecwid.com/api/v3/{STORE_ID}/products"
 HEADERS = {
