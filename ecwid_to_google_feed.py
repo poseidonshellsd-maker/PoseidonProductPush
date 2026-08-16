@@ -2,8 +2,8 @@ import requests
 import csv
 
 # 🔧 EDIT THESE TWO LINES
-STORE_ID = "42429290"          # e.g., "42429290"
-SECRET_TOKEN = "secret_1kvdBBFN8GAyYjwVYkAkTC3mfqCY6v1z"  # e.g., "secret_XXXXXXXX"
+STORE_ID = "ECWID_STORE_ID"          # e.g., "42429290"
+SECRET_TOKEN = "ECWID_SECRET_TOKEN"  # e.g., "secret_XXXXXXXX"
 
 API_URL = f"https://app.ecwid.com/api/v3/{STORE_ID}/products"
 HEADERS = {
