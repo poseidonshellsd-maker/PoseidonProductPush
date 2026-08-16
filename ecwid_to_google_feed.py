@@ -9,10 +9,35 @@ API_URL = f"https://app.ecwid.com/api/v3/{STORE_ID}/products"
 HEADERS = {"Authorization": f"Bearer {SECRET_TOKEN}"}
 
 def fetch_all_products():
-    ...
+    items = []
+    offset = 0
+    limit = 100
+
+    while True:
+        params = {
+            "offset": offset,
+            "limit": limit
+        }
+
+        resp = requests.get(API_URL, headers=HEADERS, params=params)
+
+        # 🔍 DEBUG LINES ADDED HERE
+        print("Status:", resp.status_code)
+        print("Response:", resp.text[:500])
+
+        resp.raise_for_status()
+        data = resp.json()
+
+        batch = data.get("items", [])
+        items.extend(batch)
+
+        if len(batch) < limit:
+            break
+
+        offset += limit
+
     return items
 
-# ✅ Replace the old function with this new one
 def write_csv(products, filename="google_feed.csv"):
     fieldnames = [
         "id",
@@ -25,9 +50,11 @@ def write_csv(products, filename="google_feed.csv"):
         "condition",
         "shipping_weight"
     ]
+
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
+
         for p in products:
             product_id = p.get("id")
             name = p.get("name", "")
@@ -44,6 +71,7 @@ def write_csv(products, filename="google_feed.csv"):
             image = p.get("imageUrl", "")
             price = p.get("price", 0)
             weight = p.get("weight", 0)
+
             row = {
                 "id": product_id,
                 "title": name,
