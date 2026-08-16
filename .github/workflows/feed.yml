@@ -2,27 +2,35 @@ name: Ecwid to Google Feed
 
 on:
   schedule:
-    - cron: '0 9 * * *'   # every day at 09:00 UTC
-  workflow_dispatch:      # allows manual runs
+    - cron: "0 0 * * *"   # runs daily at midnight UTC
+  workflow_dispatch:
 
 jobs:
   build-feed:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
+    steps:
+      # 1️⃣ Checkout your repo (with token)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: pip install requests
 
+      # 4️⃣ Run your Ecwid feed script
       - name: Run Ecwid feed script
         run: python ecwid_to_google_feed.py
 
+      # 5️⃣ Commit the updated feed file (this is the new part)
       - name: Commit updated feed
         run: |
           git config --global user.name "github-actions"
