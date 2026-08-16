@@ -28,7 +28,11 @@ jobs:
 
       # 4️⃣ Run your Ecwid feed script
       - name: Run Ecwid feed script
+        env:
+         ECWID_STORE_ID: ${{ secrets.ECWID_STORE_ID }}
+         ECWID_SECRET_TOKEN: ${{ secrets.ECWID_SECRET_TOKEN }}
         run: python ecwid_to_google_feed.py
+
 
       # 5️⃣ Commit the updated feed file (this is the new part)
       - name: Commit updated feed
