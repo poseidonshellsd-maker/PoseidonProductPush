@@ -22,3 +22,11 @@ jobs:
 
       - name: Run Ecwid feed script
         run: python ecwid_to_google_feed.py
+
+      - name: Commit updated feed
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add google_feed.csv
+          git commit -m "Auto-update feed" || echo "No changes to commit"
+          git push
